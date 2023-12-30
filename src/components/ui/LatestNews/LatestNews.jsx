@@ -10,131 +10,93 @@ import Image from "next/image";
 import TopNewsImg from "@/assets/news1.png";
 import topimg2 from "@/assets/topimg2.png";
 import Grid from "@mui/material/Grid";
+import { getAllNews } from "@/utils/getAllNews";
+import Link from "next/link";
 
-const LatestNews = () => {
-// TODO: fetch data and show those card in map
+const LatestNews = async () => {
+  // TODO: fetch data and show those card in map
+
+  const { data } = await getAllNews();
+  console.log(data);
 
   return (
     <Box className="my-5">
-      <Card>
-        <CardActionArea>
-          <CardMedia>
-            <Image src={TopNewsImg} alt="top-news" width={800} />
-          </CardMedia>
-          <CardContent>
-            <p className="px-2 py-1 w-[100px] rounded-sm text-center text-sm bg-red-600 text-white">
-              Technology
-            </p>
-            <Typography gutterBottom variant="h5" component="div">
-              Bitcoin Climbs as Elon Musk Says Tesla Likely to Accept it Again
-            </Typography>
-            <Typography gutterBottom className="my-3 text-sm">
-              By Rakib - Dec 30 2023
-            </Typography>
-            <Typography variant="body2" color="text.secondary">
-              It is a long established fact that a reader will be distracted by
-              the readable content of a page when looking at its layout........
-            </Typography>
-          </CardContent>
-        </CardActionArea>
-      </Card>
+      <Link href={`/${data[0].category.toLowerCase()}/${data[0]._id}`}>
+        <Card>
+          <CardActionArea>
+            <CardMedia>
+              <Image
+                src={data[0].thumbnail_url}
+                alt="top-news"
+                width={800}
+                height={100}
+              />
+            </CardMedia>
+            <CardContent>
+              <p className="px-2 py-1 w-[100px] rounded-sm text-center text-sm bg-red-600 text-white">
+                {data[0].category}
+              </p>
+              <Typography gutterBottom variant="h5" component="div">
+                {data[0].title}
+              </Typography>
+              <Typography gutterBottom className="my-3 text-sm">
+                By {data[0].author.name} - {data[0].author.published_date}
+              </Typography>
+              <Typography variant="body2" color="text.secondary">
+                {data[0].details.length > 200
+                  ? data[0].details.slice(0, 200) + "..."
+                  : data[0].details}
+              </Typography>
+            </CardContent>
+          </CardActionArea>
+        </Card>
+      </Link>
       {/* bottom card */}
-      <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }} className="mt-5">
-        {/* card-1 */}
-        <Grid item xs={6}>
-          <Card>
-            <CardActionArea>
-              <CardMedia>
-                <Image src={topimg2} alt="top-news" width={800} />
-              </CardMedia>
-              <CardContent>
-                {/* <p className="px-2 py-1 w-[100px] rounded-sm text-center text-sm bg-red-600 text-white">
-                  Technology
-                </p> */}
-                <Typography gutterBottom >
-                EU’s New Sanctions Aim to Cut Russia Off From World Bank
-                </Typography>
-                <Typography gutterBottom className="my-3 text-sm">
-                By Awlad Hossain - Mar 18 2023
-                </Typography>
-                <Typography className="text-sm">
-                It is a long established fact that a reader will be distracted by the readable.....
-                </Typography>
-              </CardContent>
-            </CardActionArea>
-          </Card>
-        </Grid>
-        {/* card-2 */}
-        <Grid item xs={6}>
-          <Card>
-            <CardActionArea>
-              <CardMedia>
-                <Image src={topimg2} alt="top-news" width={800} />
-              </CardMedia>
-              <CardContent>
-                {/* <p className="px-2 py-1 w-[100px] rounded-sm text-center text-sm bg-red-600 text-white">
-                  Technology
-                </p> */}
-                <Typography gutterBottom >
-                Battle Analysis: Russian Tank Armada vs Ukraine
-                </Typography>
-                <Typography gutterBottom className="my-3 text-sm">
-                By Rakib - Mar 18 2023
-                </Typography>
-                <Typography className="text-sm">
-                It is a long established fact that a reader will be distracted by the readable.....
-                </Typography>
-              </CardContent>
-            </CardActionArea>
-          </Card>
-        </Grid>
-        {/* card3 */}
-        <Grid item xs={6}>
-          <Card>
-            <CardActionArea>
-              <CardMedia>
-                <Image src={topimg2} alt="top-news" width={800} />
-              </CardMedia>
-              <CardContent>
-                {/* <p className="px-2 py-1 w-[100px] rounded-sm text-center text-sm bg-red-600 text-white">
-                  Technology
-                </p> */}
-                <Typography gutterBottom >
-                EU’s New Sanctions Aim to Cut Russia Off From World Bank
-                </Typography>
-                <Typography gutterBottom className="my-3 text-sm">
-                By Awlad Hossain - Mar 18 2023
-                </Typography>
-                <Typography className="text-sm">
-                It is a long established fact that a reader will be distracted by the readable.....
-                </Typography>
-              </CardContent>
-            </CardActionArea>
-          </Card>
-        </Grid>
-        <Grid item xs={6}>
-          <Card>
-            <CardActionArea>
-              <CardMedia>
-                <Image src={topimg2} alt="top-news" width={800} />
-              </CardMedia>
-              <CardContent>
-                {/* <p className="px-2 py-1 w-[100px] rounded-sm text-center text-sm bg-red-600 text-white">
-                  Technology
-                </p> */}
-                <Typography gutterBottom >
-                EU’s New Sanctions Aim to Cut Russia Off From World Bank
-                </Typography>
-                <Typography gutterBottom className="my-3 text-sm">
-                By Awlad Hossain - Mar 18 2023
-                </Typography>
-                <Typography className="text-sm">
-                It is a long established fact that a reader will be distracted by the readable.....
-                </Typography>
-              </CardContent>
-            </CardActionArea>
-          </Card>
-        </Grid>
+      <Grid
+        container
+        rowSpacing={1}
+        columnSpacing={{ xs: 1, sm: 2, md: 3 }}
+        className="mt-5"
+      >
+        {data.slice(0, 4).map((news) => (
+          <Grid key={news._id} item xs={6}>
+            <Link href={`/${news.category.toLowerCase()}/${news._id}`}>
+              <Card>
+                <CardActionArea>
+                  <CardMedia
+                    sx={{
+                      "& img": {
+                        width: "100%",
+                        height: "200px",
+                      },
+                    }}
+                  >
+                    <Image
+                      src={news.thumbnail_url}
+                      alt="top-news"
+                      width={800}
+                      height={100}
+                    />
+                  </CardMedia>
+                  <CardContent>
+                    <p className="px-2 py-1 w-[100px] rounded-sm text-center text-sm bg-red-600 text-white">
+                      {news.category}
+                    </p>
+                    <Typography gutterBottom>{news.title}</Typography>
+                    <Typography gutterBottom className="my-3 text-sm">
+                      By {news.author.name} -{news.author.published_date}
+                    </Typography>
+                    <Typography className="text-sm">
+                      {news.details.length > 200
+                        ? news.details.slice(0, 200) + "..."
+                        : news.details}
+                    </Typography>
+                  </CardContent>
+                </CardActionArea>
+              </Card>
+            </Link>
+          </Grid>
+        ))}
       </Grid>
     </Box>
   );
