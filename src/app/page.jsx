@@ -1,9 +1,23 @@
-import React from 'react';
+import Grid from "@mui/material/Grid";
+
+import Box from "@mui/material/Box";
+import React from "react";
+import LatestNews from "@/components/ui/LatestNews/LatestNews";
+import Sidebar from "@/components/ui/sidebar/Sidebar";
 
 const HomePage = () => {
   return (
     <>
-      <h1>Welcome to news home page</h1>
+      <Box>
+        <Grid container spacing={2}>
+          <Grid item xs={8}>
+            <LatestNews />
+          </Grid>
+          <Grid item xs={4}>
+          <Sidebar/>
+          </Grid>
+        </Grid>
+      </Box>
     </>
   );
 };
