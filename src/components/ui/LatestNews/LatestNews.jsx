@@ -17,7 +17,7 @@ const LatestNews = async () => {
   // TODO: fetch data and show those card in map
 
   const { data } = await getAllNews();
-  console.log(data);
+  // console.log(data);
 
   return (
     <Box className="my-5">

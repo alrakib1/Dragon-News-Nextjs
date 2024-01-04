@@ -10,7 +10,7 @@ import Image from "next/image";
 import Link from "next/link";
 const DynamicPage = async ({ params, searchParams }) => {
   const { data } = await getCategoryNews(searchParams.category);
-  console.log(data);
+  // console.log(data);
   return (
     <div className="my-5">
       <h1>
