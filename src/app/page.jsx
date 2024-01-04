@@ -3,7 +3,7 @@ import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import React from "react";
 import LatestNews from "@/components/ui/LatestNews/LatestNews";
-import Sidebar from "@/components/ui/Sidebar/Sidebar";
+import Sidebar from "@/components/ui/sidebar/Sidebar.jsx";
 
 const HomePage = () => {
   return (
@@ -14,7 +14,7 @@ const HomePage = () => {
             <LatestNews />
           </Grid>
           <Grid item xs={4}>
-          <Sidebar/>
+            <Sidebar />
           </Grid>
         </Grid>
       </Box>
